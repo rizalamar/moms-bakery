@@ -1,5 +1,6 @@
 package com.rizalamar.momsbakery.annotation;
 
+import com.rizalamar.momsbakery.config.EnumNameValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
