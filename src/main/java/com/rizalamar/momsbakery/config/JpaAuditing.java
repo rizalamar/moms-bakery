@@ -14,7 +14,7 @@ import java.util.Optional;
 public class JpaAuditing {
 
     @Bean
-    public AuditorAware<String> audiroteProvider(){
+    public AuditorAware<String> auditoreProvider(){
         return () -> {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
