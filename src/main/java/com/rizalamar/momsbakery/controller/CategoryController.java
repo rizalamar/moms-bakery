@@ -72,7 +72,7 @@ public class CategoryController {
                 );
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{categoryId}")
     public ResponseEntity<WebResponse<String>> delete(@PathVariable UUID categoryId) {
         categoryService.deleteCategory(categoryId);
         return ResponseEntity.status(HttpStatus.OK)
