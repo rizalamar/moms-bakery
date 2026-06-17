@@ -31,9 +31,5 @@ public record RegisterRequest(
         @NotBlank(message = "Phone number is required")
         @Size(min = 10, max = 15, message = "Phone number must be between 10 and 15 digits")
         @Pattern(regexp = "^[0-9+]+$", message = "Phone number can only contain digits and '+' sign")
-        String phone,
-
-        @NotNull(message = "Role is required")
-        @EnumPattern(anyOf = {"ADMIN", "CUSTOMER"})
-        Role role
+        String phone
 ){}
