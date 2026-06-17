@@ -1,6 +1,7 @@
 package com.rizalamar.momsbakery.service;
 
 import com.rizalamar.momsbakery.domain.Account;
+import com.rizalamar.momsbakery.domain.Role;
 import com.rizalamar.momsbakery.dto.auth.AuthResponse;
 import com.rizalamar.momsbakery.dto.auth.LoginRequest;
 import com.rizalamar.momsbakery.dto.auth.RegisterRequest;
@@ -41,7 +42,7 @@ public class AuthService {
                 .fullName(request.fullName())
                 .email(request.email())
                 .phone(request.phone())
-                .role(request.role())
+                .role(Role.CUSTOMER)
                 .active(true)
                 .build();
         accountRepository.save(account);
