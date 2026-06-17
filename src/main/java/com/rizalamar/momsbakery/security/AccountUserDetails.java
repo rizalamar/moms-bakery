@@ -22,12 +22,12 @@ public class AccountUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return account.getUsername();
+        return account.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return account.getPassword();
+        return account.getUsername();
     }
 
     @Override
