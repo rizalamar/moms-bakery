@@ -1,5 +1,7 @@
 package com.rizalamar.momsbakery.config;
 
+import com.rizalamar.momsbakery.exception.custom.CustomAccessDenied;
+import com.rizalamar.momsbakery.exception.custom.CustomAuthenticationEntryPoint;
 import com.rizalamar.momsbakery.security.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +29,8 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDetailsService userDetailsService;
+    private final CustomAccessDenied customAccessDenied;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -34,9 +38,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                                .requestMatchers("/api/v1/auth/**").permitAll()
+                                .requestMatchers("/swagger-ui/**", "/api-docs/**", "/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDenied)
                 )
                 .sessionManagement(
                         session -> session
