@@ -1,0 +1,25 @@
+package com.rizalamar.momsbakery.dto.order;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
+public record OrderRequest(
+        @NotBlank(message = "Customer name is required")
+        String customerName,
+
+        @NotBlank(message = "Whatsapp number is required")
+        String waNumber,
+
+        LocalDateTime requestedDeliveryDate,
+        String notes,
+        List<OrderItemRequest> items
+) {
+    public record OrderItemRequest(
+            UUID productId,
+            Integer quantity
+    ){}
+}
