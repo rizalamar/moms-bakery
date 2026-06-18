@@ -25,7 +25,7 @@ public class Order extends AbstractAuditingEntity {
     private String waNumber;
 
     @Column(nullable = false)
-    private LocalDateTime requestedDeleveryDate;
+    private LocalDateTime requestedDeliveryDate;
 
     private String notes;
 

@@ -20,6 +20,7 @@ public record OrderResponse(
         LocalDateTime createdAt,
         List<OrderItemResponse> items
 ) {
+    @Builder
     public record OrderItemResponse(
             UUID productId,
             String productName,
