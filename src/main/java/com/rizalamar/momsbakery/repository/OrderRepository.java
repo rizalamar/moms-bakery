@@ -1,5 +1,6 @@
 package com.rizalamar.momsbakery.repository;
 
+import com.rizalamar.momsbakery.domain.Account;
 import com.rizalamar.momsbakery.domain.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -9,5 +10,5 @@ import java.util.UUID;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, UUID> {
-    List<Order> findByAccountId(UUID accountId);
+    List<Order> findAllByAccount(Account account);
 }
