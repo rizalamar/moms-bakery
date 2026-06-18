@@ -1,5 +1,6 @@
 package com.rizalamar.momsbakery.dto.order;
 
+import com.rizalamar.momsbakery.domain.OrderStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -21,5 +22,9 @@ public record OrderRequest(
     public record OrderItemRequest(
             UUID productId,
             Integer quantity
+    ){}
+
+    public record UpdateOrderStatusRequest(
+            OrderStatus status
     ){}
 }
