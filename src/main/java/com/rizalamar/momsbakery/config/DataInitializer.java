@@ -24,6 +24,7 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         seedAdmin();
+        seedCategory();
     }
 
     private void seedAdmin(){
