@@ -1,5 +1,6 @@
 package com.rizalamar.momsbakery.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,6 +36,7 @@ public abstract class AbstractAuditingEntity {
 
     @CreatedDate
     @Column(name = "created_date", nullable = false, updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
 
     @LastModifiedBy
@@ -43,5 +45,6 @@ public abstract class AbstractAuditingEntity {
 
     @LastModifiedDate
     @Column(name = "last_modified_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModifiedDate;
 }
