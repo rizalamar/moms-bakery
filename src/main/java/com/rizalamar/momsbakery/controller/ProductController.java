@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WebResponse<ProductResponse>> create(@Valid @RequestBody ProductRequest request){
         ProductResponse productResponse = productService.createProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -32,6 +34,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     public ResponseEntity<WebResponse<ProductResponse>> get(@PathVariable UUID productId){
         ProductResponse productResponse = productService.getProductById(productId);
         return ResponseEntity.status(HttpStatus.OK)
@@ -44,6 +47,7 @@ public class ProductController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     public ResponseEntity<WebResponse<List<ProductResponse>>> getAll() {
         List<ProductResponse> allProducts = productService.getAllProducts();
         return ResponseEntity.status(HttpStatus.OK)
@@ -56,6 +60,7 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WebResponse<ProductResponse>> update(
             @PathVariable UUID productId,
             @Valid @RequestBody ProductRequest request
@@ -71,6 +76,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{productId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WebResponse<String>> delete(@PathVariable UUID productId) {
         productService.deleteProduct(productId);
         return ResponseEntity.status(HttpStatus.OK)
