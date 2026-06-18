@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WebResponse<CategoryResponse>> create(@Valid @RequestBody CategoryRequest request) {
         CategoryResponse categoryResponse = categoryService.createCategory(request);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -32,6 +34,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     public ResponseEntity<WebResponse<CategoryResponse>> get(
             @PathVariable UUID categoryId
     ) {
@@ -46,6 +49,7 @@ public class CategoryController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     public ResponseEntity<WebResponse<List<CategoryResponse>>> getAll() {
         List<CategoryResponse> allCategories = categoryService.getAllCategories();
         return ResponseEntity.status(HttpStatus.OK)
@@ -58,6 +62,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{categoryId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WebResponse<CategoryResponse>> update(
             @PathVariable UUID categoryId,
             @Valid @RequestBody CategoryRequest request
@@ -73,6 +78,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{categoryId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WebResponse<String>> delete(@PathVariable UUID categoryId) {
         categoryService.deleteCategory(categoryId);
         return ResponseEntity.status(HttpStatus.OK)
