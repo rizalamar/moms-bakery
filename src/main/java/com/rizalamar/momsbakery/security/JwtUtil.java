@@ -2,13 +2,13 @@ package com.rizalamar.momsbakery.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +24,13 @@ public class JwtUtil {
     private long jwtExpiration;
 
     private SecretKey getSignKey(){
-        byte[] bytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(bytes);
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+
+        if (keyBytes.length < 32) {
+            throw new IllegalStateException("Too short for secret key!");
+        }
+
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     // Ambil username dari token
@@ -48,8 +53,11 @@ public class JwtUtil {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails){
-        String username = extractUsername(userDetails.getUsername());
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        String username = extractUsername(token);
+        boolean isUsernameMatch = username.equals(userDetails.getUsername());
+        boolean isNotExpired = !isTokenExpired(token);
+
+        return isUsernameMatch && isNotExpired;
     }
 
     private boolean isTokenExpired(String token) {
