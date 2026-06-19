@@ -40,6 +40,9 @@ public class SecurityConfig {
                         auth -> auth
                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers("/error").permitAll()
+                                .requestMatchers("/api/v1/products/**").permitAll()
+                                .requestMatchers("/api/v1/orders").permitAll()
+                                .requestMatchers("/api/v1/categories/**").permitAll()
                                 .requestMatchers("/swagger-ui/**", "/api-docs/**", "/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()
                 )

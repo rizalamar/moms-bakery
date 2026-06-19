@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<WebResponse<ProductResponse>> get(@PathVariable UUID productId){
         ProductResponse productResponse = productService.getProductById(productId);
         return ResponseEntity.status(HttpStatus.OK)
@@ -47,7 +47,7 @@ public class ProductController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<WebResponse<List<ProductResponse>>> getAll() {
         List<ProductResponse> allProducts = productService.getAllProducts();
         return ResponseEntity.status(HttpStatus.OK)

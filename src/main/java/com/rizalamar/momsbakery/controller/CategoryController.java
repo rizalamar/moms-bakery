@@ -34,7 +34,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<WebResponse<CategoryResponse>> get(
             @PathVariable UUID categoryId
     ) {
@@ -49,7 +49,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<WebResponse<List<CategoryResponse>>> getAll() {
         List<CategoryResponse> allCategories = categoryService.getAllCategories();
         return ResponseEntity.status(HttpStatus.OK)

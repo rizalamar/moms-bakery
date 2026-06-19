@@ -23,7 +23,6 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<WebResponse<OrderResponse>> createOrder(
             @CurrentAccount Account account,
             @Valid @RequestBody OrderRequest request
