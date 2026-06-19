@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -29,10 +31,16 @@ public class OrderService {
     public OrderResponse createOrder(Account account, OrderRequest request){
         validationService.validate(request);
 
+        LocalTime deliveryTime = request.requestedDeliveryTime() != null
+                ? request.requestedDeliveryTime()
+                : LocalTime.of(8, 0);
+
+        LocalDateTime deliveryDateTime = request.requestedDeliveryDate().atTime(deliveryTime);
+
         Order order = Order.builder()
                 .customerName(request.customerName())
                 .waNumber(request.waNumber())
-                .requestedDeliveryDate(request.requestedDeliveryDate())
+                .requestedDeliveryDate(deliveryDateTime)
                 .notes(request.notes())
                 .status(OrderStatus.WAITING_CONFIRMATION)
                 .account(account)
